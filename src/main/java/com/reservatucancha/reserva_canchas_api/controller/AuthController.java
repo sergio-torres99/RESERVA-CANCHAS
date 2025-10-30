@@ -111,7 +111,7 @@ public class AuthController {
             TokenValidationDto response = new TokenValidationDto(
                 true,
                 usuario.getId(),
-                username,
+                usuario.getNombre(),
                 tokenProvider.getIssuedAtFromToken(token),
                 tokenProvider.getExpirationDateFromToken(token),
                 token,

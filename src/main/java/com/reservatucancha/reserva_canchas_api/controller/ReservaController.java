@@ -6,6 +6,7 @@ import com.reservatucancha.reserva_canchas_api.service.ReservaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +34,19 @@ public class ReservaController {
         return optionalReserva.map(this::convertToDto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/slots-disponibles")
+    public ResponseEntity<List<String>> getSlotsDisponibles(
+            @RequestParam Long canchaId, 
+            @RequestParam String fecha) {
+        try {
+            LocalDate fechaParsed = LocalDate.parse(fecha);
+            List<String> slots = reservaService.getSlotsDisponibles(canchaId, fechaParsed);
+            return ResponseEntity.ok(slots);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(List.of());
+        }
     }
 
     @PostMapping
