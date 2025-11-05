@@ -47,14 +47,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Permitir acceso público a endpoints de autenticación
                         .requestMatchers("/api/auth/**").permitAll()
-                        // Permitir acceso público a documentación OpenAPI/Swagger
-                        .requestMatchers("/v3/api-docs/**", "/v3/api-docs.yaml").permitAll()
+                        // Permitir acceso público a documentación OpenAPI/Swagger y sus recursos
+                        // - /v3/api-docs/** y /api-docs/** : Especificación OpenAPI (JSON/YAML)
+                        // - /swagger-ui/** : Interfaz de usuario interactiva
+                        // - /swagger-resources/** : Configuración de Swagger
+                        // - /webjars/** : Recursos web (CSS, JS)
+                        .requestMatchers("/v3/api-docs/**", "/v3/api-docs.yaml", "/api-docs/**", "/api-docs.yaml")
+                        .permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/webjars/**").permitAll()
                         // Cualquier otra petición requiere autenticación
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // ¡Aquí agregamos el filtro usando el método @Bean!
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

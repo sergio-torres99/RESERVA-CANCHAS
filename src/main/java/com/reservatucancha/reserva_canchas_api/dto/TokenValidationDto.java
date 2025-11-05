@@ -13,6 +13,7 @@ public class TokenValidationDto {
     private boolean valid;
     private Long id;
     private String username;
+    private String email;
     private Date issuedAt;
     private Date expiresAt;
     private String token;

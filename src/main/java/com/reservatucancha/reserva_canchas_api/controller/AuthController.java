@@ -112,6 +112,7 @@ public class AuthController {
                 true,
                 usuario.getId(),
                 usuario.getNombre(),
+                usuario.getEmail(),
                 tokenProvider.getIssuedAtFromToken(token),
                 tokenProvider.getExpirationDateFromToken(token),
                 token,
